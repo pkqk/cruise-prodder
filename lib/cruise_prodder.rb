@@ -8,12 +8,14 @@ class CruiseProdder
 
   def initialize(project = nil)
   end
-
-  def build_fixed(build, previous_build)
+  
+  def build_finished(build)
+    puts("Build finished")
+    return if build.failed?
+    puts("Triggering build of #{project} on #{server}:#{port}")
     if server and project
       Net::HTTP.new(server.to_s, port).post("/projects/build/#{project}",'')
-      puts("Triggering build of #{project} on #{server}:#{port}")
     end
   end
-  
+
 end
