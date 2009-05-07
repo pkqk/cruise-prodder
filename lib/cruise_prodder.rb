@@ -1,16 +1,13 @@
 class CruiseProdder
 
-  def notifier_blocks
-    @notifier_blocks || []
+  attr_accessor :server, :project
+
+  def initialize(project = nil)
   end
-  
-  def fixed_notification(&block)
-    (@notifier_blocks ||= []) << block
-  end
-  
-  def build_fixed(fixed_build, previous_build)
-    notifier_blocks.each do |block|
-      block.call(fixed_build, previous_build)
+
+  def build_fixed(build, previous_build)
+    if server and project
+      trigger_cruise_control_build(server, project)
     end
   end
   
