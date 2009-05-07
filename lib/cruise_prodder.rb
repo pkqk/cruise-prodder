@@ -1,13 +1,17 @@
 class CruiseProdder
 
   attr_accessor :server, :project
+  attr_reader :port
+  def port
+    @port || 3333
+  end
 
   def initialize(project = nil)
   end
 
   def build_fixed(build, previous_build)
     if server and project
-      trigger_cruise_control_build(server, project)
+      Net::HTTP.new(server.to_s, port).post("/projects/build/#{project}",'')
     end
   end
   
